@@ -4,26 +4,26 @@ sealed class Failure implements Exception {
 }
 
 class CancelledFailure extends Failure {
-  const CancelledFailure() : super(message: "Вы отменили запрос!");
+  const CancelledFailure() : super(message: "You canceled the request");
 }
 
 class NetworkFailure extends Failure {
-  const NetworkFailure() : super(message: "Проверьте подключение к интернету!");
+  const NetworkFailure() : super(message: "No internet connection!");
 }
 
 class BadRequestFailure extends Failure {
-  const BadRequestFailure() : super(message: "Некорректный запрос (400)");
+  const BadRequestFailure() : super(message: "Invalid request (400)");
 }
 
 class UnauthorizedFailure extends Failure {
-  const UnauthorizedFailure() : super(message: "Необходима авторизация (401)");
+  const UnauthorizedFailure() : super(message: "Authorization required (401)");
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure() : super(message: "Ошибка сервера (500)");
+  const ServerFailure() : super(message: "Server error (500)");
 }
 
 class UnexpectedFailure extends Failure {
   const UnexpectedFailure()
-    : super(message: "Неизвестная ошибка, попробуйте еще раз");
+    : super(message: "Unknown error. Please, try again");
 }
