@@ -1,3 +1,4 @@
+import 'package:flavory/features/search/data/mapper/search_recipe_mapper.dart';
 import 'package:flavory/features/search/data/source/search_remote.dart';
 import 'package:flavory/features/search/domain/entity/search_recipe_entity.dart';
 import 'package:flavory/features/search/domain/repository/search_repository.dart';
@@ -12,7 +13,11 @@ class SearchRepositoryImpl implements SearchRepository {
     required SearchFilter filter,
     required int offset,
   }) async {
-    final list = await _remote.search(query: query, filter: filter, offset: offset,);
-    return await 
+    final list = await _remote.search(
+      query: query,
+      filter: filter,
+      offset: offset,
+    );
+    return list.map((e) => e.toEntity()).toList();
   }
 }

@@ -23,6 +23,8 @@ class FailureInterceptor extends InterceptorsWrapper {
         case 500:
           failure = const ServerFailure();
           break;
+        case 402:
+          failure = const QuotaExceededFailure();
         default:
           failure = const UnexpectedFailure();
       }

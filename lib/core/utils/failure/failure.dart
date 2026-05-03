@@ -27,3 +27,8 @@ class UnexpectedFailure extends Failure {
   const UnexpectedFailure()
     : super(message: "Unknown error. Please, try again");
 }
+
+class QuotaExceededFailure extends Failure {
+  const QuotaExceededFailure()
+    : super(message: "Daily API limit reached. Try again tomorrow.");
+}

@@ -44,7 +44,6 @@ class HomeRecipesBloc extends Bloc<HomeRecipesEvent, HomeRecipesState> {
     } catch (e) {
       String message;
       final error = (e is DioException) ? e.error : e;
-      // message = e.toString();
       if (error is Failure) {
         message = error.message;
       } else {

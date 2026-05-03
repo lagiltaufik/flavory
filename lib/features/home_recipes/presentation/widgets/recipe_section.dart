@@ -52,11 +52,6 @@ class RecipeSection extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: double.infinity,
                         ),
-                        // Image.network(
-                        //   item.image,
-                        //   fit: BoxFit.cover,
-                        //   width: double.infinity,
-                        // ),
                       ),
                     ),
                     Padding(

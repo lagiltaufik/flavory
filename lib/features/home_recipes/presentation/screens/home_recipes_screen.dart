@@ -50,9 +50,6 @@ class HomeRecipesScreen extends StatelessWidget {
                   (list) => list.isNotEmpty,
                 );
                 if (state.error != null && hasData) {
-                  // ScaffoldMessenger.of(
-                  //   context,
-                  // ).showSnackBar(SnackBar(content: Text(state.error.toString())));
                   ToastService.showError(state.error!);
                 }
               },

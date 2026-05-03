@@ -1,4 +1,5 @@
 import 'package:flavory/features/home_recipes/presentation/screens/home_recipes_screen.dart';
+import 'package:flavory/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: HomeRecipesScreen(),
+      home: SearchScreen(),
     );
   }
 }
