@@ -132,23 +132,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
-  // String _mapError(dynamic e) {
-  //   // final error = (e is DioException) ? e.error : e;
-  //   if (e is Failure) return e.message;
-  //   return e.toString();
-  // }
-
   String _mapError(dynamic e) {
     final error = (e is DioException) ? e.error : e;
     if (error is Failure) return error.message;
     return e.toString();
   }
 }
-
-// String message;
-//       final error = (e is DioException) ? e.error : e;
-//       if (error is Failure) {
-//         message = error.message;
-//       } else {
-//         message = e.toString();
-//       }
