@@ -1,4 +1,5 @@
 import 'package:flavory/core/router/app_routers.dart';
+import 'package:flavory/core/theme/app_theme.dart';
 import 'package:flavory/features/home_recipes/presentation/screens/home_recipes_screen.dart';
 import 'package:flavory/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: AppTheme.light,
       routerConfig: AppRouters.router,
     );
   }

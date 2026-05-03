@@ -39,7 +39,6 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       )..add(LoadInitialRecipesEvent()),
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 235, 255, 235),
         appBar: AppBar(
           title: Text("Search Recipes"),
         ),
@@ -62,11 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             filled: true,
                             hintText: "Search recipes...",
                             hintStyle: const TextStyle(
-                              color: Color.fromARGB(255, 80, 142, 76),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
+                              color: Color.fromARGB(203, 101, 144, 98),
                             ),
                           ),
                         ),
