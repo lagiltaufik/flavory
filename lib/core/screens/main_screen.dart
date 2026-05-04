@@ -22,6 +22,10 @@ class MainScreen extends StatelessWidget {
               break;
             case 1:
               context.go(AppConstants.routeSearch);
+              break;
+            case 2:
+              context.go(AppConstants.routeAuth);
+              break;
           }
         },
         items: const [
@@ -35,6 +39,7 @@ class MainScreen extends StatelessWidget {
             icon: Icon(Icons.search),
             label: 'Search',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );

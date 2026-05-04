@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "952445052910",
+    "project_id": "flavory-30bc9",
+    "storage_bucket": "flavory-30bc9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952445052910:android:0cb45924da15b64f3dd0ff",
+        "android_client_info": {
+          "package_name": "com.example.flavory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPWXQMUcQVF2O7_v4lMQ8K4OYHcugVc8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
