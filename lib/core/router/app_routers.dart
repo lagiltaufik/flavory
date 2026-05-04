@@ -19,14 +19,19 @@ class AppRouters {
   static final GoRouter router = GoRouter(
     initialLocation: AppConstants.routeHome,
     redirect: (context, state) {
+      final authState = context.read<AuthBloc>().state;
       final goingToProfile = state.matchedLocation == AppConstants.routeProfile;
 
-      if (goingToProfile && context.read<AuthBloc>().state is Unauthenticated) {
+      if (goingToProfile && authState is Unauthenticated) {
         return AppConstants.routeAuth;
       }
 
-      if (context.read<AuthBloc>().state is Authenticated &&
-          state.matchedLocation == AppConstants.routeAuth) {
+      final isAuthFlow =
+          state.matchedLocation == AppConstants.routeAuth ||
+          state.matchedLocation == AppConstants.routeSignup ||
+          state.matchedLocation == AppConstants.routeSignin;
+
+      if (authState is Authenticated && isAuthFlow) {
         return AppConstants.routeProfile;
       }
       return null;

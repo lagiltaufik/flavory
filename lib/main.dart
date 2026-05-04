@@ -17,32 +17,32 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
-  AuthBloc(
-      repository: AuthRepositoryImpl(
-        remote: FirebaseAuthDataSource(FirebaseAuth.instance),
-      ),
-    )
-    ..add(AuthStarted())
-    ..stream.listen((_) {
-      AppRouters.router.refresh();
-    });
-  runApp(const MyApp());
+
+  final authRepository = AuthRepositoryImpl(
+    remote: FirebaseAuthDataSource(FirebaseAuth.instance),
+  );
+
+  final authBloc = AuthBloc(repository: authRepository)..add(AuthStarted());
+
+  authBloc.stream.listen((_) {
+    AppRouters.router.refresh();
+  });
+  runApp(
+    MyApp(
+      authBloc: authBloc,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthBloc authBloc;
+  const MyApp({super.key, required this.authBloc});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthBloc(
-            repository: AuthRepositoryImpl(
-              remote: FirebaseAuthDataSource(FirebaseAuth.instance),
-            ),
-          )..add(AuthStarted()),
-        ),
+        BlocProvider.value(value: authBloc),
         BlocProvider(
           create: (context) => AuthFormCubit(
             repository: AuthRepositoryImpl(
