@@ -1,8 +1,10 @@
+import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/core/services/toast_service.dart';
 import 'package:flavory/features/recipe_details/domain/entity/instructions_step_entity.dart';
 import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({super.key, required this.id});
@@ -11,7 +13,24 @@ class RecipeDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (context.read<RecipeDetailsBloc>().state.requireAuth) {
+                context.push(AppConstants.routeAuth);
+              } else {
+                context.read<RecipeDetailsBloc>().add(ToggleFavoriteEvent());
+              }
+            },
+            icon: Icon(
+              context.read<RecipeDetailsBloc>().state.isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: BlocListener<RecipeDetailsBloc, RecipeDetailsState>(
@@ -128,6 +147,7 @@ class RecipeDetailScreen extends StatelessWidget {
                   SizedBox(
                     height: 16,
                   ),
+
                   Text(
                     "Instruction",
                     style: TextStyle(fontWeight: .bold, fontSize: 16),
@@ -157,6 +177,7 @@ class RecipeDetailScreen extends StatelessWidget {
                         },
                       ),
                     ),
+                  if (instruction.isEmpty) Text(recipe.instructions),
                 ],
               );
             },

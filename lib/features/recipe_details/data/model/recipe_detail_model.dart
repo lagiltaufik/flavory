@@ -17,6 +17,7 @@ class RecipeDetailModel {
   final bool vegetarian;
   final bool vegan;
   final bool glutenFree;
+  final String instructions;
 
   List<InstructionsStepModel> get steps =>
       analyzedInstructions.isNotEmpty ? analyzedInstructions.first.steps : [];
@@ -33,6 +34,7 @@ class RecipeDetailModel {
     required this.vegetarian,
     required this.vegan,
     required this.glutenFree,
+    required this.instructions,
   });
 
   factory RecipeDetailModel.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class RecipeDetailModel {
       vegetarian: json['vegetarian'] ?? false,
       vegan: json['vegan'] ?? false,
       glutenFree: json['glutenFree'] ?? false,
+      instructions: json['instructions'] ?? "",
     );
   }
 }

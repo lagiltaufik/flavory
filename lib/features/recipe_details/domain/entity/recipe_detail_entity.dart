@@ -18,6 +18,7 @@ class RecipeDetailEntity {
   final bool vegan;
   final bool glutenFree;
   final List<InstructionsStepEntity> steps;
+  final String instructions;
 
   RecipeDetailEntity({
     required this.id,
@@ -32,5 +33,6 @@ class RecipeDetailEntity {
     required this.vegan,
     required this.glutenFree,
     required this.steps,
+    required this.instructions,
   });
 }

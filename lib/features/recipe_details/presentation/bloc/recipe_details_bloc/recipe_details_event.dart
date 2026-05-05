@@ -10,3 +10,14 @@ class GetRecipeDetailEvent extends RecipeDetailsEvent {
 
   const GetRecipeDetailEvent(this.id);
 }
+
+class ToggleFavoriteEvent extends RecipeDetailsEvent {
+  const ToggleFavoriteEvent();
+}
+
+class ToggleCookedEvent extends RecipeDetailsEvent {
+  final bool isCooked;
+  const ToggleCookedEvent(this.isCooked);
+}
+
+class RequireAuthEvent extends RecipeDetailsEvent {}

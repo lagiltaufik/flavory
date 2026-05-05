@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flavory/core/constants/app_constants.dart';
+import 'package:flavory/core/data/sources/local/app_database.dart';
 import 'package:flavory/core/data/sources/remote/http_client.dart';
 import 'package:flavory/core/screens/main_screen.dart';
+import 'package:flavory/core/services/auth_service.dart';
 import 'package:flavory/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flavory/features/auth/presentation/screens/auth_screen.dart';
 import 'package:flavory/features/auth/presentation/screens/sign_in_screen.dart';
@@ -8,6 +11,7 @@ import 'package:flavory/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:flavory/features/home_recipes/presentation/screens/home_recipes_screen.dart';
 import 'package:flavory/features/profile/presentatuon/screens/profile_screen.dart';
 import 'package:flavory/features/recipe_details/data/repository/recipe_detail_repository_impl.dart';
+import 'package:flavory/features/recipe_details/data/source/local/favorites_local.dart';
 import 'package:flavory/features/recipe_details/data/source/remote/detail_remote.dart';
 import 'package:flavory/features/recipe_details/domain/usecase/get_detail_recipe_usecase.dart';
 import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
@@ -83,6 +87,8 @@ class AppRouters {
           final id = int.parse(state.pathParameters['id']!);
           return BlocProvider(
             create: (context) => RecipeDetailsBloc(
+              authService: AuthService(FirebaseAuth.instance),
+              favoritesLocal: FavoritesLocalImpl(db: AppDatabase()),
               usecase: GetDetailRecipeUsecase(
                 repository: RecipeDetailRepositoryImpl(
                   remote: DetailRemoteImpl(httpClient: HttpClient()),

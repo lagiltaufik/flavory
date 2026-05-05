@@ -22,6 +22,7 @@ extension RecipeDetailMapper on RecipeDetailModel {
       vegetarian: vegetarian,
       vegan: vegan,
       glutenFree: glutenFree,
+      instructions: instructions,
       steps: steps
           .map((e) => InstructionsStepEntity(number: e.number, step: e.step))
           .toList(),
