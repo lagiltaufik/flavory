@@ -1,7 +1,10 @@
+import 'package:flavory/core/constants/app_constants.dart';
+import 'package:flavory/core/services/auth_redirect_storage.dart';
 import 'package:flavory/core/utils/validators/auth_validator.dart';
 import 'package:flavory/features/auth/presentation/cubit/auth_form_cubit/auth_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -54,6 +57,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 content: Text(state.error ?? "Failed"),
               ),
             );
+          }
+          if (state.status == .success) {
+            final redirect = AuthRedirectStorage.get();
+            AuthRedirectStorage.clear();
+
+            if (redirect != null) {
+              context.go(redirect);
+            } else {
+              context.go(AppConstants.routeProfile);
+            }
           }
         },
         builder: (context, state) {
@@ -137,6 +150,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                 _emailController.text,
                                 _passwordController.text,
                               );
+                              final returnTo =
+                                  GoRouterState.of(context).extra as String?;
                             }
                           },
                           style: ElevatedButton.styleFrom(

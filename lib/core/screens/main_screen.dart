@@ -1,5 +1,6 @@
 import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/core/screens/nav_index_mapper.dart';
+import 'package:flavory/core/services/auth_redirect_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,7 +25,8 @@ class MainScreen extends StatelessWidget {
               context.go(AppConstants.routeSearch);
               break;
             case 2:
-              context.go(AppConstants.routeAuth);
+              AuthRedirectStorage.save(AppConstants.routeProfile);
+              context.go(AppConstants.routeProfile);
               break;
           }
         },

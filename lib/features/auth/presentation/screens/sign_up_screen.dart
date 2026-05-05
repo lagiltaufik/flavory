@@ -1,7 +1,10 @@
+import 'package:flavory/core/constants/app_constants.dart';
+import 'package:flavory/core/services/auth_redirect_storage.dart';
 import 'package:flavory/core/utils/validators/auth_validator.dart';
 import 'package:flavory/features/auth/presentation/cubit/auth_form_cubit/auth_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -35,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 217, 245, 215),
       appBar: AppBar(
-        title: Text("Sign in"),
+        title: Text("Sign up"),
       ),
       body: BlocConsumer<AuthFormCubit, AuthFormState>(
         listener: (context, state) {
@@ -54,6 +57,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 content: Text(state.error ?? "Failed"),
               ),
             );
+          }
+          if (state.status == .success) {
+            final redirect = AuthRedirectStorage.get();
+
+            AuthRedirectStorage.clear();
+
+            if (redirect != null) {
+              context.go(redirect);
+            } else {
+              context.go(AppConstants.routeProfile);
+            }
           }
         },
         builder: (context, state) {

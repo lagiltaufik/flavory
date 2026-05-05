@@ -1,4 +1,5 @@
 import 'package:flavory/core/constants/app_constants.dart';
+import 'package:flavory/core/services/auth_redirect_storage.dart';
 import 'package:flavory/core/services/toast_service.dart';
 import 'package:flavory/features/recipe_details/domain/entity/instructions_step_entity.dart';
 import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
@@ -18,7 +19,12 @@ class RecipeDetailScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               if (context.read<RecipeDetailsBloc>().state.requireAuth) {
-                context.push(AppConstants.routeAuth);
+                AuthRedirectStorage.save(
+                  GoRouterState.of(context).uri.toString(),
+                );
+                context.push(
+                  AppConstants.routeAuth,
+                );
               } else {
                 context.read<RecipeDetailsBloc>().add(ToggleFavoriteEvent());
               }

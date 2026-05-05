@@ -36,7 +36,7 @@ class AuthScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.go(AppConstants.routeSignup);
+                  context.push(AppConstants.routeSignup);
                 },
                 child: Text("Sign up"),
                 style: ElevatedButton.styleFrom(
@@ -46,7 +46,7 @@ class AuthScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.go(AppConstants.routeSignin);
+                  context.push(AppConstants.routeSignin);
                 },
                 child: Text("Sign in"),
                 style: ElevatedButton.styleFrom(
