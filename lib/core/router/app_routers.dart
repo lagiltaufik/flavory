@@ -7,6 +7,11 @@ import 'package:flavory/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:flavory/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:flavory/features/home_recipes/presentation/screens/home_recipes_screen.dart';
 import 'package:flavory/features/profile/presentatuon/screens/profile_screen.dart';
+import 'package:flavory/features/recipe_details/data/repository/recipe_detail_repository_impl.dart';
+import 'package:flavory/features/recipe_details/data/source/remote/detail_remote.dart';
+import 'package:flavory/features/recipe_details/domain/usecase/get_detail_recipe_usecase.dart';
+import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
+import 'package:flavory/features/recipe_details/presentation/screens/recipe_detail_screen.dart';
 import 'package:flavory/features/search/data/repository/search_repository_impl.dart';
 import 'package:flavory/features/search/data/source/search_remote.dart';
 import 'package:flavory/features/search/domain/usecase/search_recipes_usecase.dart';
@@ -71,6 +76,22 @@ class AppRouters {
       GoRoute(
         path: AppConstants.routeProfile,
         builder: (context, state) => MainScreen(child: ProfileScreen()),
+      ),
+      GoRoute(
+        path: "${AppConstants.routeDeatil}/:id",
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return BlocProvider(
+            create: (context) => RecipeDetailsBloc(
+              usecase: GetDetailRecipeUsecase(
+                repository: RecipeDetailRepositoryImpl(
+                  remote: DetailRemoteImpl(httpClient: HttpClient()),
+                ),
+              ),
+            )..add(GetRecipeDetailEvent(id)),
+            child: MainScreen(child: RecipeDetailScreen(id: id)),
+          );
+        },
       ),
     ],
   );

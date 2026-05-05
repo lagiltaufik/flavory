@@ -17,5 +17,10 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       centerTitle: true,
     ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: Color.fromARGB(255, 5, 71, 5)),
+      bodyMedium: TextStyle(color: Color.fromARGB(255, 5, 71, 5)),
+      bodySmall: TextStyle(color: Color.fromARGB(255, 5, 71, 5)),
+    ),
   );
 }

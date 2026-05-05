@@ -7,4 +7,5 @@ class AppConstants {
   static const String routeSignup = "/signup";
   static const String routeAuth = "/auth";
   static const String routeProfile = "/profile";
+  static const String routeDeatil = "/detail";
 }

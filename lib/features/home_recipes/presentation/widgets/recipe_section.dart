@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/features/home_recipes/domain/entity/home_recipes_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RecipeSection extends StatelessWidget {
   final String title;
@@ -31,38 +33,43 @@ class RecipeSection extends StatelessWidget {
             itemCount: recipes.length,
             itemBuilder: (context, index) {
               final item = recipes[index];
-              return Container(
-                width: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.grey.shade200,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadiusGeometry.vertical(
-                          top: Radius.circular(12),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: item.image,
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
+              return GestureDetector(
+                onTap: () {
+                  context.push("${AppConstants.routeDeatil}/${item.id}");
+                },
+                child: Container(
+                  width: 140,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey.shade200,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadiusGeometry.vertical(
+                            top: Radius.circular(12),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: item.image,
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        item.title,
-                        maxLines: 2,
-                        overflow: .ellipsis,
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          item.title,
+                          maxLines: 2,
+                          overflow: .ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
