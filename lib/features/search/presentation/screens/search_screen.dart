@@ -1,7 +1,9 @@
+import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/features/search/presentation/bloc/search_bloc/search_bloc.dart';
 import 'package:flavory/features/search/presentation/widgets/filter_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -118,6 +120,11 @@ class _SearchScreenState extends State<SearchScreen> {
                               return Column(
                                 children: [
                                   GestureDetector(
+                                    onTap: () {
+                                      context.push(
+                                        "${AppConstants.routeDeatil}/${recipe.id}",
+                                      );
+                                    },
                                     child: Container(
                                       height: 100,
                                       decoration: BoxDecoration(

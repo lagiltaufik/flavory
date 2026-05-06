@@ -1,5 +1,5 @@
 import 'package:flavory/features/profile/data/mapper/favorites_list_mapper.dart';
-import 'package:flavory/features/profile/data/source/favorites_list_local.dart';
+import 'package:flavory/features/profile/data/source/local/favorites_list_local.dart';
 import 'package:flavory/features/profile/domain/entity/favorites_list_entity.dart';
 import 'package:flavory/features/profile/domain/repository/favorites_list_repository.dart';
 
@@ -21,4 +21,6 @@ class FavoritesRepositoryImpl implements FavoritesListRepository {
   Future<void> removeFavorite({required int id, required String userId}) async {
     await _local.removeFavorite(id: id, userId: userId);
   }
+
+  
 }

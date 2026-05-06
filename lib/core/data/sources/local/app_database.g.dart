@@ -1293,12 +1293,313 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
   }
 }
 
+class $FavoritesCounterTableTable extends FavoritesCounterTable
+    with TableInfo<$FavoritesCounterTableTable, FavoritesCounter> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FavoritesCounterTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
+  @override
+  late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
+    'recipe_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, userId, recipeId, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'favorites_counter_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FavoritesCounter> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('recipe_id')) {
+      context.handle(
+        _recipeIdMeta,
+        recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_recipeIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FavoritesCounter map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FavoritesCounter(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_id'],
+      )!,
+      recipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}recipe_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $FavoritesCounterTableTable createAlias(String alias) {
+    return $FavoritesCounterTableTable(attachedDatabase, alias);
+  }
+}
+
+class FavoritesCounter extends DataClass
+    implements Insertable<FavoritesCounter> {
+  final int id;
+  final String userId;
+  final int recipeId;
+  final DateTime createdAt;
+  const FavoritesCounter({
+    required this.id,
+    required this.userId,
+    required this.recipeId,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<String>(userId);
+    map['recipe_id'] = Variable<int>(recipeId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  FavoritesCounterTableCompanion toCompanion(bool nullToAbsent) {
+    return FavoritesCounterTableCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      recipeId: Value(recipeId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory FavoritesCounter.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FavoritesCounter(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<String>(json['userId']),
+      recipeId: serializer.fromJson<int>(json['recipeId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<String>(userId),
+      'recipeId': serializer.toJson<int>(recipeId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  FavoritesCounter copyWith({
+    int? id,
+    String? userId,
+    int? recipeId,
+    DateTime? createdAt,
+  }) => FavoritesCounter(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    recipeId: recipeId ?? this.recipeId,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  FavoritesCounter copyWithCompanion(FavoritesCounterTableCompanion data) {
+    return FavoritesCounter(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FavoritesCounter(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('recipeId: $recipeId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId, recipeId, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FavoritesCounter &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.recipeId == this.recipeId &&
+          other.createdAt == this.createdAt);
+}
+
+class FavoritesCounterTableCompanion extends UpdateCompanion<FavoritesCounter> {
+  final Value<int> id;
+  final Value<String> userId;
+  final Value<int> recipeId;
+  final Value<DateTime> createdAt;
+  const FavoritesCounterTableCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.recipeId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  FavoritesCounterTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String userId,
+    required int recipeId,
+    required DateTime createdAt,
+  }) : userId = Value(userId),
+       recipeId = Value(recipeId),
+       createdAt = Value(createdAt);
+  static Insertable<FavoritesCounter> custom({
+    Expression<int>? id,
+    Expression<String>? userId,
+    Expression<int>? recipeId,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (recipeId != null) 'recipe_id': recipeId,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  FavoritesCounterTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? userId,
+    Value<int>? recipeId,
+    Value<DateTime>? createdAt,
+  }) {
+    return FavoritesCounterTableCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      recipeId: recipeId ?? this.recipeId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (recipeId.present) {
+      map['recipe_id'] = Variable<int>(recipeId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FavoritesCounterTableCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('recipeId: $recipeId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $RecipeTableTable recipeTable = $RecipeTableTable(this);
   late final $FavoriteRecipesTableTable favoriteRecipesTable =
       $FavoriteRecipesTableTable(this);
+  late final $FavoritesCounterTableTable favoritesCounterTable =
+      $FavoritesCounterTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1306,6 +1607,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     recipeTable,
     favoriteRecipesTable,
+    favoritesCounterTable,
   ];
 }
 
@@ -1948,6 +2250,200 @@ typedef $$FavoriteRecipesTableTableProcessedTableManager =
       FavoriteRecipe,
       PrefetchHooks Function()
     >;
+typedef $$FavoritesCounterTableTableCreateCompanionBuilder =
+    FavoritesCounterTableCompanion Function({
+      Value<int> id,
+      required String userId,
+      required int recipeId,
+      required DateTime createdAt,
+    });
+typedef $$FavoritesCounterTableTableUpdateCompanionBuilder =
+    FavoritesCounterTableCompanion Function({
+      Value<int> id,
+      Value<String> userId,
+      Value<int> recipeId,
+      Value<DateTime> createdAt,
+    });
+
+class $$FavoritesCounterTableTableFilterComposer
+    extends Composer<_$AppDatabase, $FavoritesCounterTableTable> {
+  $$FavoritesCounterTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get recipeId => $composableBuilder(
+    column: $table.recipeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FavoritesCounterTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $FavoritesCounterTableTable> {
+  $$FavoritesCounterTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get recipeId => $composableBuilder(
+    column: $table.recipeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FavoritesCounterTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FavoritesCounterTableTable> {
+  $$FavoritesCounterTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<int> get recipeId =>
+      $composableBuilder(column: $table.recipeId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$FavoritesCounterTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FavoritesCounterTableTable,
+          FavoritesCounter,
+          $$FavoritesCounterTableTableFilterComposer,
+          $$FavoritesCounterTableTableOrderingComposer,
+          $$FavoritesCounterTableTableAnnotationComposer,
+          $$FavoritesCounterTableTableCreateCompanionBuilder,
+          $$FavoritesCounterTableTableUpdateCompanionBuilder,
+          (
+            FavoritesCounter,
+            BaseReferences<
+              _$AppDatabase,
+              $FavoritesCounterTableTable,
+              FavoritesCounter
+            >,
+          ),
+          FavoritesCounter,
+          PrefetchHooks Function()
+        > {
+  $$FavoritesCounterTableTableTableManager(
+    _$AppDatabase db,
+    $FavoritesCounterTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FavoritesCounterTableTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$FavoritesCounterTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$FavoritesCounterTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> userId = const Value.absent(),
+                Value<int> recipeId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => FavoritesCounterTableCompanion(
+                id: id,
+                userId: userId,
+                recipeId: recipeId,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String userId,
+                required int recipeId,
+                required DateTime createdAt,
+              }) => FavoritesCounterTableCompanion.insert(
+                id: id,
+                userId: userId,
+                recipeId: recipeId,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FavoritesCounterTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FavoritesCounterTableTable,
+      FavoritesCounter,
+      $$FavoritesCounterTableTableFilterComposer,
+      $$FavoritesCounterTableTableOrderingComposer,
+      $$FavoritesCounterTableTableAnnotationComposer,
+      $$FavoritesCounterTableTableCreateCompanionBuilder,
+      $$FavoritesCounterTableTableUpdateCompanionBuilder,
+      (
+        FavoritesCounter,
+        BaseReferences<
+          _$AppDatabase,
+          $FavoritesCounterTableTable,
+          FavoritesCounter
+        >,
+      ),
+      FavoritesCounter,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1956,4 +2452,6 @@ class $AppDatabaseManager {
       $$RecipeTableTableTableManager(_db, _db.recipeTable);
   $$FavoriteRecipesTableTableTableManager get favoriteRecipesTable =>
       $$FavoriteRecipesTableTableTableManager(_db, _db.favoriteRecipesTable);
+  $$FavoritesCounterTableTableTableManager get favoritesCounterTable =>
+      $$FavoritesCounterTableTableTableManager(_db, _db.favoritesCounterTable);
 }

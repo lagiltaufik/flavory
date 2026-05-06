@@ -6,6 +6,7 @@ import 'package:flavory/core/services/auth_service.dart';
 import 'package:flavory/core/utils/failure/failure.dart';
 import 'package:flavory/core/utils/statuses/statuses.dart';
 import 'package:flavory/features/recipe_details/data/mapper/favorite_recipe_mapper.dart';
+import 'package:flavory/features/recipe_details/domain/entity/fav_counter_req_param_entity.dart';
 import 'package:flavory/features/recipe_details/domain/entity/recipe_detail_entity.dart';
 import 'package:flavory/features/recipe_details/domain/repository/favorite_repository.dart';
 import 'package:flavory/features/recipe_details/domain/usecase/get_detail_recipe_usecase.dart';
@@ -104,6 +105,14 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
         await _repository.addFavorite(
           recipe.toCompanion(userId: user.uid, isCooked: state.isCooked),
         );
+
+        final now = DateTime.now();
+        final FavCounterReqParamEntity param = (
+          recipeId: recipe.id,
+          userId: user.uid,
+          createdAt: now,
+        );
+        await _repository.countFavorites(param);
         emit(state.copyWith(isFavorite: true));
       }
     } catch (e) {
@@ -130,6 +139,12 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
       if (!isFav) {
         await _repository.addFavorite(
           recipe.toCompanion(userId: user.uid, isCooked: event.isCooked),
+        );
+        final now = DateTime.now();
+        final FavCounterReqParamEntity param = (
+          recipeId: recipe.id,
+          userId: user.uid,
+          createdAt: now,
         );
         emit(state.copyWith(isFavorite: true));
 

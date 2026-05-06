@@ -1,5 +1,6 @@
 import 'package:flavory/core/data/sources/local/app_database.dart';
 import 'package:flavory/features/recipe_details/data/source/local/favorite_local.dart';
+import 'package:flavory/features/recipe_details/domain/entity/fav_counter_req_param_entity.dart';
 import 'package:flavory/features/recipe_details/domain/repository/favorite_repository.dart';
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -27,5 +28,10 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   Future<void> updateCookedStatus(int id, bool isCooked) async {
     await _local.updateCookedStatus(id, isCooked);
+  }
+
+  @override
+  Future<void> countFavorites(FavCounterReqParamEntity param) async {
+    await _local.countFavorites(param);
   }
 }

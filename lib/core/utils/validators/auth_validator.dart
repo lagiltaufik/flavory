@@ -9,7 +9,7 @@ class AuthValidator {
     }
 
     if (!regex.hasMatch(value.trim())) {
-      return 'Only Latin letters allowed';
+      return 'Use Latin letters, numbers, and symbols only';
     }
     return null;
   }

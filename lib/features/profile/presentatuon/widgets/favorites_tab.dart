@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flavory/core/data/sources/local/app_database.dart';
 import 'package:flavory/features/profile/data/repository/favorites_repository_impl.dart';
-import 'package:flavory/features/profile/data/source/favorites_list_local.dart';
+import 'package:flavory/features/profile/data/source/local/favorites_list_local.dart';
 import 'package:flavory/features/profile/domain/usecase/get_favorites_list_usecase.dart';
 import 'package:flavory/features/profile/domain/usecase/remove_favorite_usecase.dart';
 import 'package:flavory/features/profile/domain/usecase/update_is_cooked_usecase.dart';

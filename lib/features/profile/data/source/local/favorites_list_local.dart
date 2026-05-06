@@ -8,6 +8,7 @@ abstract interface class FavoritesListLocal {
   });
   Future<void> updateIsCooked(int id, String userId, bool isCooked);
   Future<void> removeFavorite({required int id, required String userId});
+  
 }
 
 class FavoritesListLocalImpl implements FavoritesListLocal {
@@ -51,4 +52,6 @@ class FavoritesListLocalImpl implements FavoritesListLocal {
       _db.favoriteRecipesTable,
     )..where((tbl) => tbl.id.equals(id) & tbl.userId.equals(userId))).go();
   }
+
+  
 }
