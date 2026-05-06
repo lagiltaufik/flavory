@@ -6,8 +6,8 @@ import 'package:flavory/core/services/auth_service.dart';
 import 'package:flavory/core/utils/failure/failure.dart';
 import 'package:flavory/core/utils/statuses/statuses.dart';
 import 'package:flavory/features/recipe_details/data/mapper/favorite_recipe_mapper.dart';
-import 'package:flavory/features/recipe_details/data/source/local/favorites_local.dart';
 import 'package:flavory/features/recipe_details/domain/entity/recipe_detail_entity.dart';
+import 'package:flavory/features/recipe_details/domain/repository/favorite_repository.dart';
 import 'package:flavory/features/recipe_details/domain/usecase/get_detail_recipe_usecase.dart';
 import 'package:meta/meta.dart';
 
@@ -16,15 +16,15 @@ part 'recipe_details_state.dart';
 
 class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
   final GetDetailRecipeUsecase _usecase;
-  final FavoritesLocal _favoritesLocal;
+  final FavoriteRepository _repository;
   final AuthService _authService;
 
   RecipeDetailsBloc({
     required GetDetailRecipeUsecase usecase,
-    required FavoritesLocal favoritesLocal,
+    required FavoriteRepository repository,
     required AuthService authService,
   }) : _usecase = usecase,
-       _favoritesLocal = favoritesLocal,
+       _repository = repository,
        _authService = authService,
        super(RecipeDetailsState()) {
     on<GetRecipeDetailEvent>(_onGetRecipesDetail);
@@ -42,7 +42,7 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
 
     try {
       final recipe = await _usecase.call(event.id);
-      final isfav = await _favoritesLocal.isFavorite(event.id);
+      final isfav = await _repository.isFavorite(event.id);
 
       final list = [];
       if (recipe.glutenFree == true) list.add("Gluten free");
@@ -95,13 +95,13 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
 
     try {
       if (isFav) {
-        await _favoritesLocal.removeFavorite(
+        await _repository.removeFavorite(
           recipeId: recipe.id,
           userId: user.uid,
         );
         emit(state.copyWith(isFavorite: false, isCooked: false));
       } else {
-        await _favoritesLocal.addFavorite(
+        await _repository.addFavorite(
           recipe.toCompanion(userId: user.uid, isCooked: state.isCooked),
         );
         emit(state.copyWith(isFavorite: true));
@@ -126,14 +126,18 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
     if (recipe == null) return;
 
     try {
-      final isFav = await _favoritesLocal.isFavorite(recipe.id);
+      final isFav = await _repository.isFavorite(recipe.id);
       if (!isFav) {
-        await _favoritesLocal.addFavorite(
+        await _repository.addFavorite(
           recipe.toCompanion(userId: user.uid, isCooked: event.isCooked),
         );
         emit(state.copyWith(isFavorite: true));
 
-        await _favoritesLocal.updateCookedStatus(recipe.id, event.isCooked);
+        await _repository.updateCookedStatus(recipe.id, event.isCooked);
+        emit(state.copyWith(isCooked: event.isCooked));
+      }
+      if (isFav) {
+        await _repository.updateCookedStatus(recipe.id, event.isCooked);
         emit(state.copyWith(isCooked: event.isCooked));
       }
     } catch (e) {

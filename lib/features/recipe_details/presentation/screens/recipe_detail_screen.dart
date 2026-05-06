@@ -16,24 +16,30 @@ class RecipeDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              if (context.read<RecipeDetailsBloc>().state.requireAuth) {
-                AuthRedirectStorage.save(
-                  GoRouterState.of(context).uri.toString(),
-                );
-                context.push(
-                  AppConstants.routeAuth,
-                );
-              } else {
-                context.read<RecipeDetailsBloc>().add(ToggleFavoriteEvent());
-              }
+          BlocBuilder<RecipeDetailsBloc, RecipeDetailsState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  if (context.read<RecipeDetailsBloc>().state.requireAuth) {
+                    AuthRedirectStorage.save(
+                      GoRouterState.of(context).uri.toString(),
+                    );
+                    context.push(
+                      AppConstants.routeAuth,
+                    );
+                  } else {
+                    context.read<RecipeDetailsBloc>().add(
+                      ToggleFavoriteEvent(),
+                    );
+                  }
+                },
+                icon: Icon(
+                  context.read<RecipeDetailsBloc>().state.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
+              );
             },
-            icon: Icon(
-              context.read<RecipeDetailsBloc>().state.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-            ),
           ),
         ],
       ),

@@ -8,7 +8,7 @@ class UserDataTab extends StatelessWidget {
     return Padding(
       padding: .all(20),
       child: Column(
-        children: [Text("User data")],
+        children: [Text("Favorites")],
       ),
     );
   }

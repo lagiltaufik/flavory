@@ -10,8 +10,9 @@ import 'package:flavory/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:flavory/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:flavory/features/home_recipes/presentation/screens/home_recipes_screen.dart';
 import 'package:flavory/features/profile/presentatuon/screens/profile_screen.dart';
+import 'package:flavory/features/recipe_details/data/repository/favorite_repository_impl.dart';
 import 'package:flavory/features/recipe_details/data/repository/recipe_detail_repository_impl.dart';
-import 'package:flavory/features/recipe_details/data/source/local/favorites_local.dart';
+import 'package:flavory/features/recipe_details/data/source/local/favorite_local.dart';
 import 'package:flavory/features/recipe_details/data/source/remote/detail_remote.dart';
 import 'package:flavory/features/recipe_details/domain/usecase/get_detail_recipe_usecase.dart';
 import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
@@ -88,7 +89,9 @@ class AppRouters {
           return BlocProvider(
             create: (context) => RecipeDetailsBloc(
               authService: AuthService(FirebaseAuth.instance),
-              favoritesLocal: FavoritesLocalImpl(db: AppDatabase()),
+              repository: FavoriteRepositoryImpl(
+                local: FavoriteLocalImpl(db: AppDatabase()),
+              ),
               usecase: GetDetailRecipeUsecase(
                 repository: RecipeDetailRepositoryImpl(
                   remote: DetailRemoteImpl(httpClient: HttpClient()),

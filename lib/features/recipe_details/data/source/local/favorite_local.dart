@@ -1,15 +1,15 @@
 import 'package:drift/drift.dart';
 import 'package:flavory/core/data/sources/local/app_database.dart';
 
-abstract interface class FavoritesLocal {
+abstract interface class FavoriteLocal {
   Future<void> addFavorite(FavoriteRecipesTableCompanion recipe);
   Future<void> removeFavorite({required int recipeId, required String userId});
   Future<bool> isFavorite(int id);
   Future<void> updateCookedStatus(int id, bool isCooked);
 }
 
-class FavoritesLocalImpl implements FavoritesLocal {
-  FavoritesLocalImpl({required AppDatabase db}) : _db = db;
+class FavoriteLocalImpl implements FavoriteLocal {
+  FavoriteLocalImpl({required AppDatabase db}) : _db = db;
 
   final AppDatabase _db;
 
