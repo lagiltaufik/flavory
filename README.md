@@ -1,17 +1,28 @@
-# flavory
+Flavory — это мобильное приложение с рецептами, в котором пользователь может искать блюда, добавлять их в избранное и просматривать
+---
 
-A new Flutter project.
+✨ Что можно делать в приложении
+🔍 Искать рецепты блюд
+❤️ Добавлять рецепты в избранное
+📦 Открывать сохранённые рецепты без интернета
+📊 Смотреть свою статистику
+👤 Использовать личный профиль
 
-## Getting Started
+🚀 Как запустить приложение
+Скачай APK-файл
+Открой его на телефоне
+Нажми “Установить”
+Разреши установку (если попросит)
+Готово — можно пользоваться 🎉
 
-This project is a starting point for a Flutter application.
+💡 О приложении
+Flavory создано для того, чтобы быстро находить рецепты и сохранять любимые блюда в одном месте.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📱 Скриншоты
+<p align="center">
+  <img src="screenshots/1.png" width="250"/>
+  <img src="screenshots/2.png" width="250"/>
+  <img src="screenshots/3.png" width="250"/>
+  <img src="screenshots/3.png" width="250"/>
+</p>
