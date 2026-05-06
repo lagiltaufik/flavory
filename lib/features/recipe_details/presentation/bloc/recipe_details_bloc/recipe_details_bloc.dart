@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flavory/core/services/auth_service.dart';
 import 'package:flavory/core/utils/failure/failure.dart';
+import 'package:flavory/core/utils/recipesource/recipe_source.dart';
 import 'package:flavory/core/utils/statuses/statuses.dart';
 import 'package:flavory/features/recipe_details/data/mapper/favorite_recipe_mapper.dart';
 import 'package:flavory/features/recipe_details/domain/entity/fav_counter_req_param_entity.dart';
@@ -42,40 +43,53 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
     emit(state.copyWith(status: Statuses.loading, error: null));
 
     try {
-      final recipe = await _usecase.call(event.id);
-      final isfav = await _repository.isFavorite(event.id);
+      RecipeDetailEntity? recipe;
+      bool isFav = false;
+
+      try {
+        recipe = await _usecase.call(event.id);
+
+        if (recipe != null) {
+          isFav = await _repository.isFavorite(event.id);
+        }
+      } catch (e) {
+        log("API failed, fallback to local");
+      }
+
+      if (recipe == null) {
+        final userId = event.userId;
+        if (userId != null) {
+          recipe = await _repository.getFavoriteById(event.id, userId);
+          isFav = true;
+        }
+      }
 
       final list = [];
       if (recipe.glutenFree == true) list.add("Gluten free");
       if (recipe.vegan == true) list.add("Vegan");
       if (recipe.vegetarian == true) list.add("Vegetarian");
+
       emit(
         state.copyWith(
           status: Statuses.success,
           recipe: recipe,
           dietType: list,
-          isFavorite: isfav,
+          isFavorite: isFav,
         ),
       );
     } catch (e) {
-      String message;
-
-      final error = (e is DioException) ? e.error : e;
-
-      if (error is Failure) {
-        message = error.message;
+      final message;
+      if (e is DioException) {
+        message = e.error;
       } else {
-        message = e.toString();
+        message = e.toString;
       }
-
       emit(
         state.copyWith(
           status: Statuses.error,
-          error: message,
+          error: e.toString(),
         ),
       );
-
-      log("DETAIL ERROR: $message");
     }
   }
 

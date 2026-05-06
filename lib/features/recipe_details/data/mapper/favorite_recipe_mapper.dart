@@ -49,6 +49,7 @@ extension FavoriteRecipeMapper on RecipeDetailEntity {
       vegetarian: Value(vegetarian),
       vegan: Value(vegan),
       glutenFree: Value(glutenFree),
+      readyInMinutes: Value(readyInMinutes),
     );
   }
 }

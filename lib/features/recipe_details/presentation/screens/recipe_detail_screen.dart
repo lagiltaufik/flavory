@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/core/services/auth_redirect_storage.dart';
 import 'package:flavory/core/services/toast_service.dart';
+import 'package:flavory/core/utils/recipesource/recipe_source.dart';
 import 'package:flavory/features/recipe_details/domain/entity/instructions_step_entity.dart';
 import 'package:flavory/features/recipe_details/presentation/bloc/recipe_details_bloc/recipe_details_bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
-  const RecipeDetailScreen({super.key, required this.id});
+  const RecipeDetailScreen({super.key, required this.id, required this.source});
   final int id;
+  final RecipeSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class RecipeDetailScreen extends StatelessWidget {
                       AppConstants.routeAuth,
                     );
                   } else {
+                    final user = FirebaseAuth.instance.currentUser!;
                     context.read<RecipeDetailsBloc>().add(
                       ToggleFavoriteEvent(),
                     );
@@ -69,8 +74,9 @@ class RecipeDetailScreen extends StatelessWidget {
                       Text("No data"),
                       ElevatedButton(
                         onPressed: () {
+                          final user = FirebaseAuth.instance.currentUser!;
                           context.read<RecipeDetailsBloc>().add(
-                            GetRecipeDetailEvent(id),
+                            GetRecipeDetailEvent(id, user.uid),
                           );
                         },
                         child: Text("Try again"),
@@ -99,8 +105,8 @@ class RecipeDetailScreen extends StatelessWidget {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadiusGeometry.circular(8),
-                    child: Image.network(
-                      recipe.image,
+                    child: CachedNetworkImage(
+                      imageUrl: recipe.image,
                       fit: BoxFit.cover,
                     ),
                   ),

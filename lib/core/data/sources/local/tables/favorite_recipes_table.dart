@@ -14,6 +14,7 @@ class FavoriteRecipesTable extends Table {
 
   RealColumn get healthScore => real()();
   IntColumn get likes => integer()();
+  IntColumn get readyInMinutes => integer()();
 
   BoolColumn get vegetarian => boolean()();
   BoolColumn get vegan => boolean()();

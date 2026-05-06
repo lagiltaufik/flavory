@@ -617,6 +617,17 @@ class $FavoriteRecipesTableTable extends FavoriteRecipesTable
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _readyInMinutesMeta = const VerificationMeta(
+    'readyInMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> readyInMinutes = GeneratedColumn<int>(
+    'ready_in_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _vegetarianMeta = const VerificationMeta(
     'vegetarian',
   );
@@ -683,6 +694,7 @@ class $FavoriteRecipesTableTable extends FavoriteRecipesTable
     ingredientsJson,
     healthScore,
     likes,
+    readyInMinutes,
     vegetarian,
     vegan,
     glutenFree,
@@ -778,6 +790,17 @@ class $FavoriteRecipesTableTable extends FavoriteRecipesTable
     } else if (isInserting) {
       context.missing(_likesMeta);
     }
+    if (data.containsKey('ready_in_minutes')) {
+      context.handle(
+        _readyInMinutesMeta,
+        readyInMinutes.isAcceptableOrUnknown(
+          data['ready_in_minutes']!,
+          _readyInMinutesMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_readyInMinutesMeta);
+    }
     if (data.containsKey('vegetarian')) {
       context.handle(
         _vegetarianMeta,
@@ -853,6 +876,10 @@ class $FavoriteRecipesTableTable extends FavoriteRecipesTable
         DriftSqlType.int,
         data['${effectivePrefix}likes'],
       )!,
+      readyInMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ready_in_minutes'],
+      )!,
       vegetarian: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}vegetarian'],
@@ -888,6 +915,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
   final String ingredientsJson;
   final double healthScore;
   final int likes;
+  final int readyInMinutes;
   final bool vegetarian;
   final bool vegan;
   final bool glutenFree;
@@ -902,6 +930,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
     required this.ingredientsJson,
     required this.healthScore,
     required this.likes,
+    required this.readyInMinutes,
     required this.vegetarian,
     required this.vegan,
     required this.glutenFree,
@@ -919,6 +948,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
     map['ingredients_json'] = Variable<String>(ingredientsJson);
     map['health_score'] = Variable<double>(healthScore);
     map['likes'] = Variable<int>(likes);
+    map['ready_in_minutes'] = Variable<int>(readyInMinutes);
     map['vegetarian'] = Variable<bool>(vegetarian);
     map['vegan'] = Variable<bool>(vegan);
     map['gluten_free'] = Variable<bool>(glutenFree);
@@ -937,6 +967,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
       ingredientsJson: Value(ingredientsJson),
       healthScore: Value(healthScore),
       likes: Value(likes),
+      readyInMinutes: Value(readyInMinutes),
       vegetarian: Value(vegetarian),
       vegan: Value(vegan),
       glutenFree: Value(glutenFree),
@@ -959,6 +990,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
       ingredientsJson: serializer.fromJson<String>(json['ingredientsJson']),
       healthScore: serializer.fromJson<double>(json['healthScore']),
       likes: serializer.fromJson<int>(json['likes']),
+      readyInMinutes: serializer.fromJson<int>(json['readyInMinutes']),
       vegetarian: serializer.fromJson<bool>(json['vegetarian']),
       vegan: serializer.fromJson<bool>(json['vegan']),
       glutenFree: serializer.fromJson<bool>(json['glutenFree']),
@@ -978,6 +1010,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
       'ingredientsJson': serializer.toJson<String>(ingredientsJson),
       'healthScore': serializer.toJson<double>(healthScore),
       'likes': serializer.toJson<int>(likes),
+      'readyInMinutes': serializer.toJson<int>(readyInMinutes),
       'vegetarian': serializer.toJson<bool>(vegetarian),
       'vegan': serializer.toJson<bool>(vegan),
       'glutenFree': serializer.toJson<bool>(glutenFree),
@@ -995,6 +1028,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
     String? ingredientsJson,
     double? healthScore,
     int? likes,
+    int? readyInMinutes,
     bool? vegetarian,
     bool? vegan,
     bool? glutenFree,
@@ -1009,6 +1043,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
     ingredientsJson: ingredientsJson ?? this.ingredientsJson,
     healthScore: healthScore ?? this.healthScore,
     likes: likes ?? this.likes,
+    readyInMinutes: readyInMinutes ?? this.readyInMinutes,
     vegetarian: vegetarian ?? this.vegetarian,
     vegan: vegan ?? this.vegan,
     glutenFree: glutenFree ?? this.glutenFree,
@@ -1031,6 +1066,9 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
           ? data.healthScore.value
           : this.healthScore,
       likes: data.likes.present ? data.likes.value : this.likes,
+      readyInMinutes: data.readyInMinutes.present
+          ? data.readyInMinutes.value
+          : this.readyInMinutes,
       vegetarian: data.vegetarian.present
           ? data.vegetarian.value
           : this.vegetarian,
@@ -1054,6 +1092,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
           ..write('ingredientsJson: $ingredientsJson, ')
           ..write('healthScore: $healthScore, ')
           ..write('likes: $likes, ')
+          ..write('readyInMinutes: $readyInMinutes, ')
           ..write('vegetarian: $vegetarian, ')
           ..write('vegan: $vegan, ')
           ..write('glutenFree: $glutenFree, ')
@@ -1073,6 +1112,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
     ingredientsJson,
     healthScore,
     likes,
+    readyInMinutes,
     vegetarian,
     vegan,
     glutenFree,
@@ -1091,6 +1131,7 @@ class FavoriteRecipe extends DataClass implements Insertable<FavoriteRecipe> {
           other.ingredientsJson == this.ingredientsJson &&
           other.healthScore == this.healthScore &&
           other.likes == this.likes &&
+          other.readyInMinutes == this.readyInMinutes &&
           other.vegetarian == this.vegetarian &&
           other.vegan == this.vegan &&
           other.glutenFree == this.glutenFree &&
@@ -1107,6 +1148,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
   final Value<String> ingredientsJson;
   final Value<double> healthScore;
   final Value<int> likes;
+  final Value<int> readyInMinutes;
   final Value<bool> vegetarian;
   final Value<bool> vegan;
   final Value<bool> glutenFree;
@@ -1122,6 +1164,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
     this.ingredientsJson = const Value.absent(),
     this.healthScore = const Value.absent(),
     this.likes = const Value.absent(),
+    this.readyInMinutes = const Value.absent(),
     this.vegetarian = const Value.absent(),
     this.vegan = const Value.absent(),
     this.glutenFree = const Value.absent(),
@@ -1138,6 +1181,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
     required String ingredientsJson,
     required double healthScore,
     required int likes,
+    required int readyInMinutes,
     required bool vegetarian,
     required bool vegan,
     required bool glutenFree,
@@ -1152,6 +1196,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
        ingredientsJson = Value(ingredientsJson),
        healthScore = Value(healthScore),
        likes = Value(likes),
+       readyInMinutes = Value(readyInMinutes),
        vegetarian = Value(vegetarian),
        vegan = Value(vegan),
        glutenFree = Value(glutenFree);
@@ -1165,6 +1210,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
     Expression<String>? ingredientsJson,
     Expression<double>? healthScore,
     Expression<int>? likes,
+    Expression<int>? readyInMinutes,
     Expression<bool>? vegetarian,
     Expression<bool>? vegan,
     Expression<bool>? glutenFree,
@@ -1181,6 +1227,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
       if (ingredientsJson != null) 'ingredients_json': ingredientsJson,
       if (healthScore != null) 'health_score': healthScore,
       if (likes != null) 'likes': likes,
+      if (readyInMinutes != null) 'ready_in_minutes': readyInMinutes,
       if (vegetarian != null) 'vegetarian': vegetarian,
       if (vegan != null) 'vegan': vegan,
       if (glutenFree != null) 'gluten_free': glutenFree,
@@ -1199,6 +1246,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
     Value<String>? ingredientsJson,
     Value<double>? healthScore,
     Value<int>? likes,
+    Value<int>? readyInMinutes,
     Value<bool>? vegetarian,
     Value<bool>? vegan,
     Value<bool>? glutenFree,
@@ -1215,6 +1263,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
       ingredientsJson: ingredientsJson ?? this.ingredientsJson,
       healthScore: healthScore ?? this.healthScore,
       likes: likes ?? this.likes,
+      readyInMinutes: readyInMinutes ?? this.readyInMinutes,
       vegetarian: vegetarian ?? this.vegetarian,
       vegan: vegan ?? this.vegan,
       glutenFree: glutenFree ?? this.glutenFree,
@@ -1253,6 +1302,9 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
     if (likes.present) {
       map['likes'] = Variable<int>(likes.value);
     }
+    if (readyInMinutes.present) {
+      map['ready_in_minutes'] = Variable<int>(readyInMinutes.value);
+    }
     if (vegetarian.present) {
       map['vegetarian'] = Variable<bool>(vegetarian.value);
     }
@@ -1283,6 +1335,7 @@ class FavoriteRecipesTableCompanion extends UpdateCompanion<FavoriteRecipe> {
           ..write('ingredientsJson: $ingredientsJson, ')
           ..write('healthScore: $healthScore, ')
           ..write('likes: $likes, ')
+          ..write('readyInMinutes: $readyInMinutes, ')
           ..write('vegetarian: $vegetarian, ')
           ..write('vegan: $vegan, ')
           ..write('glutenFree: $glutenFree, ')
@@ -1883,6 +1936,7 @@ typedef $$FavoriteRecipesTableTableCreateCompanionBuilder =
       required String ingredientsJson,
       required double healthScore,
       required int likes,
+      required int readyInMinutes,
       required bool vegetarian,
       required bool vegan,
       required bool glutenFree,
@@ -1900,6 +1954,7 @@ typedef $$FavoriteRecipesTableTableUpdateCompanionBuilder =
       Value<String> ingredientsJson,
       Value<double> healthScore,
       Value<int> likes,
+      Value<int> readyInMinutes,
       Value<bool> vegetarian,
       Value<bool> vegan,
       Value<bool> glutenFree,
@@ -1958,6 +2013,11 @@ class $$FavoriteRecipesTableTableFilterComposer
 
   ColumnFilters<int> get likes => $composableBuilder(
     column: $table.likes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get readyInMinutes => $composableBuilder(
+    column: $table.readyInMinutes,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2036,6 +2096,11 @@ class $$FavoriteRecipesTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get readyInMinutes => $composableBuilder(
+    column: $table.readyInMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get vegetarian => $composableBuilder(
     column: $table.vegetarian,
     builder: (column) => ColumnOrderings(column),
@@ -2098,6 +2163,11 @@ class $$FavoriteRecipesTableTableAnnotationComposer
 
   GeneratedColumn<int> get likes =>
       $composableBuilder(column: $table.likes, builder: (column) => column);
+
+  GeneratedColumn<int> get readyInMinutes => $composableBuilder(
+    column: $table.readyInMinutes,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get vegetarian => $composableBuilder(
     column: $table.vegetarian,
@@ -2168,6 +2238,7 @@ class $$FavoriteRecipesTableTableTableManager
                 Value<String> ingredientsJson = const Value.absent(),
                 Value<double> healthScore = const Value.absent(),
                 Value<int> likes = const Value.absent(),
+                Value<int> readyInMinutes = const Value.absent(),
                 Value<bool> vegetarian = const Value.absent(),
                 Value<bool> vegan = const Value.absent(),
                 Value<bool> glutenFree = const Value.absent(),
@@ -2183,6 +2254,7 @@ class $$FavoriteRecipesTableTableTableManager
                 ingredientsJson: ingredientsJson,
                 healthScore: healthScore,
                 likes: likes,
+                readyInMinutes: readyInMinutes,
                 vegetarian: vegetarian,
                 vegan: vegan,
                 glutenFree: glutenFree,
@@ -2200,6 +2272,7 @@ class $$FavoriteRecipesTableTableTableManager
                 required String ingredientsJson,
                 required double healthScore,
                 required int likes,
+                required int readyInMinutes,
                 required bool vegetarian,
                 required bool vegan,
                 required bool glutenFree,
@@ -2215,6 +2288,7 @@ class $$FavoriteRecipesTableTableTableManager
                 ingredientsJson: ingredientsJson,
                 healthScore: healthScore,
                 likes: likes,
+                readyInMinutes: readyInMinutes,
                 vegetarian: vegetarian,
                 vegan: vegan,
                 glutenFree: glutenFree,

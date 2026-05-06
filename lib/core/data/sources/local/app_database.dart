@@ -6,7 +6,9 @@ import 'package:flavory/core/data/sources/local/tables/favorites_counter_table.d
 import 'package:path_provider/path_provider.dart';
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [RecipeTable, FavoriteRecipesTable, FavoritesCounterTable])
+@DriftDatabase(
+  tables: [RecipeTable, FavoriteRecipesTable, FavoritesCounterTable],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase._([QueryExecutor? executor])
     : super(executor ?? _openConnection());
@@ -19,7 +21,6 @@ class AppDatabase extends _$AppDatabase {
     return instance!;
   }
 
-
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'app_db',
@@ -28,11 +29,7 @@ class AppDatabase extends _$AppDatabase {
       ),
     );
   }
-  
+
   @override
-  int get schemaVersion => 3;
-
-  
+  int get schemaVersion => 1;
 }
-
-

@@ -17,8 +17,10 @@ class RecipeDetailEntity {
   final bool vegetarian;
   final bool vegan;
   final bool glutenFree;
-  final List<InstructionsStepEntity> steps;
   final String instructions;
+
+  List<InstructionsStepEntity> get steps =>
+      analyzedInstructions.isNotEmpty ? analyzedInstructions.first.steps : [];
 
   RecipeDetailEntity({
     required this.id,
@@ -32,7 +34,6 @@ class RecipeDetailEntity {
     required this.vegetarian,
     required this.vegan,
     required this.glutenFree,
-    required this.steps,
     required this.instructions,
   });
 }

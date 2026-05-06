@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flavory/core/constants/app_constants.dart';
 import 'package:flavory/core/data/sources/local/app_database.dart';
 import 'package:flavory/features/profile/data/repository/favorites_repository_impl.dart';
 import 'package:flavory/features/profile/data/source/local/favorites_list_local.dart';
@@ -8,6 +9,7 @@ import 'package:flavory/features/profile/domain/usecase/update_is_cooked_usecase
 import 'package:flavory/features/profile/presentatuon/bloc/favorites_list_bloc/favorites_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class FavoritesTab extends StatefulWidget {
   const FavoritesTab({super.key});
@@ -50,6 +52,11 @@ class _FavoritesTabState extends State<FavoritesTab> {
                   return Column(
                     children: [
                       GestureDetector(
+                        onTap: () {
+                          context.push(
+                            "${AppConstants.routeDeatil}/${item.id}?source=local",
+                          );
+                        },
                         child: Container(
                           width: 400,
                           height: 100,

@@ -4,6 +4,7 @@ import 'package:flavory/core/data/sources/local/app_database.dart';
 import 'package:flavory/core/data/sources/remote/http_client.dart';
 import 'package:flavory/core/screens/main_screen.dart';
 import 'package:flavory/core/services/auth_service.dart';
+import 'package:flavory/core/utils/recipesource/recipe_source.dart';
 import 'package:flavory/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flavory/features/auth/presentation/screens/auth_screen.dart';
 import 'package:flavory/features/auth/presentation/screens/sign_in_screen.dart';
@@ -86,6 +87,10 @@ class AppRouters {
         path: "${AppConstants.routeDeatil}/:id",
         builder: (context, state) {
           final id = int.parse(state.pathParameters['id']!);
+          final sourceString = state.uri.queryParameters['source'];
+          final source = sourceString == 'local'
+              ? RecipeSource.local
+              : RecipeSource.api;
           return BlocProvider(
             create: (context) => RecipeDetailsBloc(
               authService: AuthService(FirebaseAuth.instance),
@@ -97,8 +102,10 @@ class AppRouters {
                   remote: DetailRemoteImpl(httpClient: HttpClient()),
                 ),
               ),
-            )..add(GetRecipeDetailEvent(id)),
-            child: MainScreen(child: RecipeDetailScreen(id: id)),
+            )..add(GetRecipeDetailEvent(id, FirebaseAuth.instance.currentUser!.uid)),
+            child: MainScreen(
+              child: RecipeDetailScreen(id: id, source: source),
+            ),
           );
         },
       ),
