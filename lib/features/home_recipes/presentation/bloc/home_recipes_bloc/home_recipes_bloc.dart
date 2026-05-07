@@ -19,7 +19,7 @@ class HomeRecipesBloc extends Bloc<HomeRecipesEvent, HomeRecipesState> {
     on<GetHomeRecipesEvent>(_onGetHomeRecipes);
   }
 
-  _onGetHomeRecipes(
+  Future<void> _onGetHomeRecipes(
     GetHomeRecipesEvent event,
     Emitter<HomeRecipesState> emit,
   ) async {

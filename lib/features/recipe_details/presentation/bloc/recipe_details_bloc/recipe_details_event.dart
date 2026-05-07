@@ -7,13 +7,10 @@ sealed class RecipeDetailsEvent {
 
 class GetRecipeDetailEvent extends RecipeDetailsEvent {
   final int id;
-  final RecipeSource source;
   final String userId;
   const GetRecipeDetailEvent(
     this.id,
-    this.userId, {
-    this.source = RecipeSource.api,
-  });
+    this.userId);
 }
 
 class ToggleFavoriteEvent extends RecipeDetailsEvent {
